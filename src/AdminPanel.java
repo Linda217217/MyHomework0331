@@ -1,14 +1,14 @@
 
 
-    import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+    import java.util.*;
 
     public class AdminPanel {
         private final UserService userService = new UserService();
         private final BikeService bikeService = new BikeService();
         private final RentalService rentalService = new RentalService();
+        private final Bike bike = new Bike();
+        UserRegistration u=new UserRegistration();
+        private final ActiveRental activeRental = new ActiveRental();
 
         public void userManagementOptions() {
 
@@ -17,7 +17,10 @@ import java.util.Scanner;
             System.out.println("2. View Registered Users");
             System.out.println("3. Remove Registered Users");
             System.out.println("4. Update Registered Users");
-            System.out.println("5. EXIT");
+            System.out.println("5. Demo rental service");
+            System.out.println("6. View System Logs");
+            System.out.println("7. Manage Pending Bike Requests");
+            System.out.println("8. EXIT");
             Scanner sc=new Scanner(System.in);
             int choice=sc.nextInt();
             sc.nextLine();
@@ -35,8 +38,41 @@ import java.util.Scanner;
                     userService.updateRegisteredUsers();
                     break;
                 case 5:
-                    System.exit(0);
+                  String ID=bikeService.validateLocation(bike.getLocation());
+                  if(ID!=null) {
+                      bikeService.reserveBike(ID, activeRental.getTripStartTime());
+                      rentalService.startRental(ID, u.getEmailAdress(), activeRental.getTripStartTime());
+                      rentalService.endRental(ID);
+                      rentalService.removeTrip(ID);
+                      bikeService.releaseBike(ID);
+                      rentalService.viewActiveRentals();
+                  }else{
+                      System.out.println("wrong");
+                      break;
+                  }
+                case 6:
+                      bikeService.viewSystemLogs();
+                      break;
+                case 7:
+                    System.out.println("1. View Queue");
+                    System.out.println("2. Update Queue");
+                    System.out.println("3. Exit");
+                   int your=sc.nextInt();
+                   sc.nextLine();
+                    Queue<BikeRequest> que= bikeService.getBikeRequestQueue();
+                   if(your==1){
 
+                      for(BikeRequest r:que){
+                          System.out.println(r);
+                      }
+                   }else if(your==2){
+                      BikeRequest request= que.poll();
+                   }else  if(your==3){
+                       System.exit(0);
+                   }
+                   break;
+                case 8:
+                    System.exit(0);
             }
 
 

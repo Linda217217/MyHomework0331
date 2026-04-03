@@ -4,6 +4,7 @@
     public class ActiveRental {
         private String bikeID;
         private String userEmail;
+
         private LocalDateTime tripStartTime;
 
         public ActiveRental() {
