@@ -26,8 +26,9 @@
             sc.nextLine();
             switch(choice){
                 case 1:
-                    userService.addNewUsers();
-                    break;
+                   RegisteredUsers registeredUsers= userService.addNewUsers();
+
+                   break;
                 case 2:
                     userService.viewRegisteredUsers();
                     break;
@@ -40,9 +41,12 @@
                 case 5:
                   String ID=bikeService.validateLocation(bike.getLocation());
                   if(ID!=null) {
+                      RegisteredUsers u1 = userService.addNewUsers();
+
                       bikeService.reserveBike(ID, activeRental.getTripStartTime());
                       rentalService.startRental(ID, u.getEmailAdress(), activeRental.getTripStartTime());
-                      rentalService.endRental(ID);
+
+                      rentalService.endRental(ID, u1);
                       rentalService.removeTrip(ID);
                       bikeService.releaseBike(ID);
                       rentalService.viewActiveRentals();

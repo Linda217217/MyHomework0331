@@ -1,7 +1,7 @@
 
     import java.util.Arrays;
 
-    public class RegisteredUsers {
+    public abstract class RegisteredUsers {
         private String fullName;
         private String emailAddress;
         private String dateOfBirth;
@@ -99,7 +99,8 @@
         public void setLastThreeTrips(String[] lastThreeTrips) {
             this.lastThreeTrips = lastThreeTrips;
         }
-
+public abstract double calculateFare(double baseFare);
+        public abstract void  displayUserType();
         @Override
         public String toString() {
             return "RegisteredUsers{" +

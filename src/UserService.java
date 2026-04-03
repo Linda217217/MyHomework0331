@@ -4,13 +4,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserService {
+    RegisteredUsers newu;
     List<RegisteredUsers> registeredUsersList = new ArrayList<>();
-    public void addNewUsers() {
+    public RegisteredUsers addNewUsers() {
 
         System.out.println("How many users the admin would like to add");
         Scanner sc = new Scanner(System.in);
         int num = sc.nextInt();
         sc.nextLine();
+
+
         for (int i = 0; i < num; i++) {
             System.out.println("Enter your fullNmae: ");
             String fullName = sc.nextLine();
@@ -69,9 +72,18 @@ public class UserService {
                 lastThreeTrips[j] = sb.toString();
 
             }
-            RegisteredUsers user = new RegisteredUsers(fullName, emailAddress, dateOfBirth, cardNumber, cardProvider, cardExpiryDate, CVV, usertype, lastThreeTrips);
-            registeredUsersList.add(user);
+
+            if (usertype.equalsIgnoreCase("VIP")) {
+                newu = new VIPUser(fullName, emailAddress, dateOfBirth, cardNumber, cardProvider, cardExpiryDate, CVV, usertype, lastThreeTrips);
+            } else {
+                newu = new RegularUser(fullName, emailAddress, dateOfBirth, cardNumber, cardProvider, cardExpiryDate, CVV, usertype, lastThreeTrips);
+            }
+            registeredUsersList.add(newu);
+
+
+
         }
+      return newu;
 
     }
     public void removeRegisteredUsers() {
